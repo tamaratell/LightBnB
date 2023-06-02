@@ -8,18 +8,18 @@
   -- Only show listings that have a rating >= 4 stars.
 
 --Expected: 
---  id  |       title        | cost_per_night |   average_rating
+--  id  |       title        | cost_per_night |   average_rating   
 -- -----+--------------------+----------------+--------------------
---  224 | Nature bite        |          10526 | 4.1000000000000000
---  197 | Build they         |          34822 | 4.1000000000000000
---   47 | Aside age          |          35421 | 4.2500000000000000
---  149 | Present television |          53062 | 4.2222222222222222
+--  200 | Build they         |          34822 | 4.2222222222222222
+--  895 | Hold guess         |          41952 | 4.5000000000000000
+--   64 | Extra sheep        |          48794 | 4.1428571428571429
+--  152 | Present television |          53062 | 4.1666666666666667
 -- (4 rows)
 
 SELECT properties.id, properties.title, properties.cost_per_night, avg(property_reviews.rating) as average_rating
 FROM properties
 LEFT JOIN property_reviews ON properties.id = property_id
-WHERE properties.city LIKE '%ancouve%'
+WHERE properties.city LIKE '%ancouv%'
 GROUP BY properties.id, properties.title, properties.cost_per_night
 HAVING avg(property_reviews.rating) >= 4
 ORDER BY cost_per_night
