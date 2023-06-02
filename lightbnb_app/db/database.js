@@ -42,7 +42,20 @@ const getUserWithEmail = (email) => {
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithId = function(id) {
-  return Promise.resolve(users[id]);
+  return pool
+    .query(
+      `SELECT id, name, email, password
+    FROM users
+    WHERE users.id = $1`,
+      [id])
+    .then((result) => {
+      const user = result.rows[0];
+      return user || null;
+    })
+    .catch((err) => {
+      console.log(err.message);
+      return null;
+    });
 };
 
 /**
@@ -83,7 +96,6 @@ const getAllProperties = (options, limit = 10) => {
       `SELECT * FROM properties LIMIT $1`,
       [limit])
     .then((result) => {
-      console.log(result.rows);
       return result.rows;
     })
     .catch((err) => {
